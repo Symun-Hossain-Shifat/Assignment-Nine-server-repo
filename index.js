@@ -4,7 +4,7 @@ const app = express()
 const dotsenv = require('dotenv')
 dotsenv.config()
 const port = process.env.PORT
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URL
 
 
@@ -23,6 +23,23 @@ async function run() {
   try {
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
+   
+
+   app.get('/featured' , async (req , res ) => {
+    const result = await Allappoinment.find().limit(3).toArray()
+    res.send(result)
+   })
+
+   app.get('/allappoinmets/:id' , async (req , res ) => {
+    const {id} = req.params
+    const result = await Allappoinment.findOne({ _id : new ObjectId(id)});
+    console.log(result)
+    res.send(result)
+    
+   })
+
+
+
 
    app.get('/allappoinmets' , async (req , res) => {
     const result = await Allappoinment.find().toArray();
