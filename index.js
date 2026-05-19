@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
 const dotsenv = require('dotenv')
 dotsenv.config()
@@ -7,7 +8,8 @@ const port = process.env.PORT
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URL
 
-
+app.use(cors())
+app.use(express.json())
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -23,6 +25,15 @@ async function run() {
   try {
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
+   const AllBooking = db.collection('allbooking')
+
+
+   app.post('/allbookings' , async (req , res ) => {
+    const Data = req.body
+    const result = await AllBooking.insertOne(Data)
+    console.log(result)
+    res.send(result)
+   })
    
 
    app.get('/featured' , async (req , res ) => {
@@ -33,7 +44,7 @@ async function run() {
    app.get('/allappoinmets/:id' , async (req , res ) => {
     const {id} = req.params
     const result = await Allappoinment.findOne({ _id : new ObjectId(id)});
-    console.log(result)
+    // console.log(result)
     res.send(result)
     
    })
