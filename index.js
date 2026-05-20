@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const jose = require('jose-cjs')
 
 const dotsenv = require('dotenv')
 dotsenv.config()
@@ -18,6 +19,33 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+
+const jwks = jose.createRemoteJWKSet(
+  new URL ('http://localhost:3000/api/auth/jwks')
+)
+const Valudateapi = async (req , res , next ) => {
+const authheader  = req?.headers?.authorization ;
+if(!authheader){
+  return res.status(401).json({messaage : 'unauthorized'})
+  
+}
+const token = authheader.split(' ')[1];
+console.log(token)
+if(!token){
+   return res.status(401).json({messaage : 'unauthorized'})
+}
+
+try{
+ const {payload} =  await jose.jwtVerify(token , jwks)
+console.log(payload)
+next()
+}catch(error){
+return res.status(403).json({ messaage : 'Forbidden'})
+}
+
+
+}
 
 
 
@@ -78,7 +106,7 @@ async function run() {
 
 
 
-   app.get('/allappoinmets' , async (req , res) => {
+   app.get('/allappoinmets' , Valudateapi , async (req , res) => {
     const result = await Allappoinment.find().toArray();
     res.send(result)
    })
