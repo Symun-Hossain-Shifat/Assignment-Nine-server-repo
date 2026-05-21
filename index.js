@@ -9,7 +9,15 @@ const port = process.env.PORT
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URL
 
-app.use(cors())
+app.use(cors({
+  
+    
+    origin: ['http://localhost:3000', 'https://assignment-nine-client-repo.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+}))
 app.use(express.json())
 
 const client = new MongoClient(uri, {
