@@ -15,10 +15,11 @@ app.use(cors({
     'https://assignment-nine-client-repo.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
-
+app.options('*', cors());
 
 app.use(express.json());
 
@@ -35,6 +36,13 @@ const jwks = jose.createRemoteJWKSet(
   new URL (`${process.env.CLIENT_URL}/api/auth/jwks`)
 )
 const Valudateapi = async (req , res , next ) => {
+
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+
+
+  
 const authheader  = req?.headers?.authorization ;
 console.log(authheader)
 if(!authheader){
