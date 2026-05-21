@@ -67,7 +67,27 @@ async function run() {
    const Allappoinment = db.collection('allappoinments')
    const AllBooking = db.collection('allbooking')
   
+  app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://assignment-nine-client-repo.vercel.app"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,DELETE,OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  next();
+});
    app.patch('/allbookings/:id' , Valudateapi , async (req , res ) => {
     const {id} = req.params 
     const NewData = req.body 
