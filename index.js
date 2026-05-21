@@ -54,7 +54,7 @@ async function run() {
   try {
 
 
-      await client.connect();
+      
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
    const AllBooking = db.collection('allbooking')
