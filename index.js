@@ -119,12 +119,12 @@ async function run() {
     });
 
   
-    app.get('/allappoinmets', async (req, res) => {
+    app.get('/allappointments', async (req, res) => {
       const result = await Allappoinment.find().toArray();
       res.send(result);
     });
 
-    app.get('/allappoinmets/:id', Valudateapi, async (req, res) => {
+    app.get('/allappointments/:id', Valudateapi, async (req, res) => {
       const { id } = req.params;
 
       const result = await Allappoinment.findOne({
