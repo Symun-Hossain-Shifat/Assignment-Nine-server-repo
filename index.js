@@ -82,6 +82,7 @@ async function run() {
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
+  // 🔑 THIS LINE FIXES YOUR ISSUE
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
