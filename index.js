@@ -9,18 +9,18 @@ const port = process.env.PORT
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URL
 
-// app.use(cors(
-//   {
-//      origin: ['http://localhost:3000', 'https://assignment-nine-client-repo.vercel.app'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders : ['Content-Type', 'Authorization'],
-//   credentials: true,
-//   optionsSuccessStatus: 200
-// }))
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://assignment-nine-client-repo.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
+app.options('*', cors());
 
-app.options("*", cors());
-app.use(express.json())
+app.use(express.json());
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -63,34 +63,12 @@ return res.status(403).json({ messaage : 'Forbidden'})
 async function run() {
   try {
 
-
+await client.connect();
       
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
    const AllBooking = db.collection('allbooking')
   
-//   s
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     "https://assignment-nine-client-repo.vercel.app"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET,POST,PUT,DELETE,OPTIONS"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, Authorization"
-//   );
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-
-//   // 🔑 THIS LINE FIXES YOUR ISSUE
-//   if (req.method === "OPTIONS") {
-//     return res.status(200).end();
-//   }
-
-//   next();
-// });
 
 
    app.patch('/allbookings/:id' , Valudateapi , async (req , res ) => {
