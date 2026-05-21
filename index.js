@@ -9,15 +9,17 @@ const port = process.env.PORT
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URL
 
-app.use(cors(
-  {
-     origin: ['http://localhost:3000', 'https://assignment-nine-client-repo.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders : ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-}))
+// app.use(cors(
+//   {
+//      origin: ['http://localhost:3000', 'https://assignment-nine-client-repo.vercel.app'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders : ['Content-Type', 'Authorization'],
+//   credentials: true,
+//   optionsSuccessStatus: 200
+// }))
 
+
+app.options("*", cors());
 app.use(express.json())
 
 const client = new MongoClient(uri, {
@@ -67,28 +69,30 @@ async function run() {
    const Allappoinment = db.collection('allappoinments')
    const AllBooking = db.collection('allbooking')
   
-  app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://assignment-nine-client-repo.vercel.app"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,POST,PUT,DELETE,OPTIONS"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+//   s
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     "https://assignment-nine-client-repo.vercel.app"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,POST,PUT,DELETE,OPTIONS"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Content-Type, Authorization"
+//   );
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  // 🔑 THIS LINE FIXES YOUR ISSUE
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+//   // 🔑 THIS LINE FIXES YOUR ISSUE
+//   if (req.method === "OPTIONS") {
+//     return res.status(200).end();
+//   }
 
-  next();
-});
+//   next();
+// });
+
+
    app.patch('/allbookings/:id' , Valudateapi , async (req , res ) => {
     const {id} = req.params 
     const NewData = req.body 
