@@ -13,11 +13,12 @@ app.use(cors({
   
     
     origin: ['http://localhost:3000', 'https://assignment-nine-client-repo.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH' , 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
 }))
+app.options( '*' , cors())
 app.use(express.json())
 
 const client = new MongoClient(uri, {
