@@ -26,6 +26,7 @@ const jwks = jose.createRemoteJWKSet(
 )
 const Valudateapi = async (req , res , next ) => {
 const authheader  = req?.headers?.authorization ;
+console.log(authheader)
 if(!authheader){
   return res.status(401).json({messaage : 'unauthorized'})
   
@@ -51,6 +52,9 @@ return res.status(403).json({ messaage : 'Forbidden'})
 
 async function run() {
   try {
+
+
+      await client.connect();
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
    const AllBooking = db.collection('allbooking')
