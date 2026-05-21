@@ -18,7 +18,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.options('*', cors());
+
 
 app.use(express.json());
 
@@ -52,7 +52,8 @@ try{
 console.log(payload)
 next()
 }catch(error){
-return res.status(403).json({ messaage : 'Forbidden'})
+  console.log(error)
+return res.status(403).json({ messaage : error })
 }
 
 
@@ -63,7 +64,7 @@ return res.status(403).json({ messaage : 'Forbidden'})
 async function run() {
   try {
 
-await client.connect();
+
       
    const db = client.db('doctorappoinmentspage')
    const Allappoinment = db.collection('allappoinments')
