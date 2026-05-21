@@ -56,7 +56,7 @@ async function run() {
    const AllBooking = db.collection('allbooking')
   
 
-   app.patch('/allbookings/:id' , async (req , res ) => {
+   app.patch('/allbookings/:id' , Valudateapi , async (req , res ) => {
     const {id} = req.params 
     const NewData = req.body 
     const result = await AllBooking.updateOne(
@@ -66,7 +66,7 @@ async function run() {
     res.send(result)
    })
 
-   app.delete('/allbookings/:id' , async (req , res ) => {
+   app.delete('/allbookings/:id' , Valudateapi , async (req , res ) => {
 
     const {id} = req.params 
     const result = await AllBooking.deleteOne({ _id : new ObjectId(id)});
@@ -77,12 +77,19 @@ async function run() {
    })
   
 
-   app.get('/allbookings' , async (req , res ) => {
-    const result = await AllBooking.find().toArray()
+   app.get('/allbookings' , Valudateapi ,  async (req , res ) => {
+
+    const email = req.query.email 
+    console.log(email)
+    let query = {} 
+    if(email){
+      query = { email : email}
+    }
+    const result = await AllBooking.find(query).toArray()
     res.send(result)
    })
 
-   app.post('/allbookings' , async (req , res ) => {
+   app.post('/allbookings' , Valudateapi ,  async (req , res ) => {
     const Data = req.body
     const result = await AllBooking.insertOne(Data)
     console.log(result)
@@ -95,7 +102,7 @@ async function run() {
     res.send(result)
    })
 
-   app.get('/allappoinmets/:id' , async (req , res ) => {
+   app.get('/allappoinmets/:id' , Valudateapi , async (req , res ) => {
     const {id} = req.params
     const result = await Allappoinment.findOne({ _id : new ObjectId(id)});
     // console.log(result)
@@ -106,7 +113,7 @@ async function run() {
 
 
 
-   app.get('/allappoinmets' , Valudateapi , async (req , res) => {
+   app.get('/allappoinmets' , async (req , res) => {
     const result = await Allappoinment.find().toArray();
     res.send(result)
    })
